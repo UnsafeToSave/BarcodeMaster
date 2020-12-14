@@ -20,17 +20,9 @@ namespace BarcodeMaster.CodeDesigner.Styles
             int width, heigh;
 
             this.modulSize = modulSize;
-            width = modulSize * 8 + template.GetLength(1) * modulSize;
-            heigh = modulSize * 8 + template.GetLength(0) * modulSize;
+            width = template.GetLength(1) * modulSize;
+            heigh = template.GetLength(0) * modulSize;
             QRCode = new Bitmap(width, heigh);
-            
-            for(int y = 0; y < heigh; y++)
-            {
-                for(int x = 0; x < width; x++)
-                {
-                    QRCode.SetPixel(x, y, Palet[0]);
-                }
-            }
 
             for(int row = 0; row < template.GetLength(0); row++)
             {
@@ -50,8 +42,8 @@ namespace BarcodeMaster.CodeDesigner.Styles
 
             int x0, y0;
 
-            x0 = modulSize * 4 + modulSize * column;
-            y0 = modulSize * 4 + modulSize * row;
+            x0 = modulSize * column;
+            y0 = modulSize * row;
             
             for(int y  = y0; y < y0 + modulSize; y++)
             {

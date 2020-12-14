@@ -166,7 +166,9 @@ namespace BarcodeMaster.Codes.QR.Writer
             template = CreateTemplate(Version);
             QRtemplates = CreateQRTemplates(data, template);
             QRtemplate = ChoosingBetterMask(QRtemplates);
-            return AddStyleCutomization(QRtemplate);
+            AddStyleCutomization(QRtemplate);
+            AddBorders(QRtemplate);
+            return QRtemplate;
         }
 
         /// <summary>
@@ -264,7 +266,7 @@ namespace BarcodeMaster.Codes.QR.Writer
         /// Method AddStyleCutomization adds style customization for search and alignment patterns
         /// </summary>
         /// <param name="QRtemplate">QR code template</param>
-        private byte[,] AddStyleCutomization(byte[,] QRtemplate)
+        private void AddStyleCutomization(byte[,] QRtemplate)
         {
             #region Value of Patterns to custome style
             //SearchPattern
@@ -278,7 +280,6 @@ namespace BarcodeMaster.Codes.QR.Writer
             AddSearchPatterns(QRtemplate, searchOuter, searchCenter);
             AddAlignmentPatterns(QRtemplate, Version, alignmentOuter, alignmentCenter);
 
-            return QRtemplate;
         }
 
         /// <summary>
@@ -836,6 +837,27 @@ namespace BarcodeMaster.Codes.QR.Writer
         }
         #endregion
 
+        #region Borders
+        /// <summary>
+        /// Method AddPadding adds four-modul borders 
+        /// </summary>
+        /// <param name="QRtemplate">QR template</param>
+        private void AddBorders(byte[,] QRtemplate)
+        {
+            int heigh = QRtemplate.GetLength(0) + 8;
+            int width = heigh;
+            byte[,] newQRtemplate = new byte[heigh, width];
+
+            for(int row = 0; row < QRtemplate.GetLength(0); row++)
+            {
+                for(int column = 0; column< QRtemplate.GetLength(1); column++)
+                {
+                    newQRtemplate[row + 4, column + 4] = QRtemplate[row, column];
+                }
+            }
+            QRtemplate = newQRtemplate;
+        }
+        #endregion
 
         #region Rules
         /// <summary>
